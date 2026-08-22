@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Iron Leaf Landscaping</title>
+  <script>
+    /*
+      GitHub Pages SPA redirect trick.
+      When someone visits a URL like example.com/services directly,
+      GitHub Pages returns this 404.html (because no services.html file exists).
+      This script saves the intended path in sessionStorage, then sends
+      the visitor to the root index.html, which reads the path and shows
+      the correct page — all in under a second, invisibly.
+    */
+    (function () {
+      var path = window.location.pathname;
+      /*
+        Detect if we are in a GitHub Pages project subdirectory
+        (e.g. najihammadtawil-star.github.io/IRONLEAFLANDSCAPING/).
+        If so, strip the repo prefix before saving the path.
+      */
+      var isProjectSite = (
+        window.location.hostname.endsWith('.github.io') &&
+        path.split('/').length > 2
+      );
+      var basePath = isProjectSite
+        ? '/' + path.split('/')[1]   /* e.g. /IRONLEAFLANDSCAPING */
+        : '';
+
+      /* Save just the route part (e.g. /services or /services/lawn-turf) */
+      var route = path.slice(basePath.length) || '/';
+      sessionStorage.setItem('ironleaf_redirect', route);
+
+      /* Redirect to the root index.html */
+      window.location.replace(
+        window.location.protocol + '//' + window.location.host + basePath + '/'
+      );
+    })();
+  </script>
+</head>
+<body></body>
+</html>
